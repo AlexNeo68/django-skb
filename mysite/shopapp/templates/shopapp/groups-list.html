@@ -1,0 +1,20 @@
+{% extends "shopapp/base.html" %}
+{% block title %}Index for shopapp{% endblock title %}
+{% block body %}
+
+<ul>
+    {% for group in groups %}
+        <li>{{group.name}} <code>{{gtoup.codename}}</code>
+            <div>
+                {% for perm in group.permissions.all %}
+                <span>{{perm}}</span>;
+                {% endfor %}
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+
+
+
+{% endblock body %}

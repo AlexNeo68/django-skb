@@ -1,6 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render
 from django.views.generic import ListView
+from django.contrib.auth.models import Group
 
 
 def index(request:HttpRequest):
@@ -14,5 +15,8 @@ def index(request:HttpRequest):
     }
     return render(request, 'shopapp/index.html', context)
 
-class ShopIndexView(ListView):
-    template_name = 'shopapp/index.html'
+def get_groups(request: HttpRequest):
+    context = {
+        'groups': Group.objects.prefetch_related('permissions').all()
+    }
+    return render(request, 'shopapp/groups-list.html', context)

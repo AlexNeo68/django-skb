@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>This is shopapp</h1>
-</body>
-</html>
+{% extends "shopapp/base.html" %}
+{% block title %}Index for shopapp{% endblock title %}
+{% block body %}
+
+<ul>
+    {% for title, price in products %}
+        <li>{{title}} for ${{price}}</li>
+    {% endfor %}
+</ul>
+
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, incidunt quia atque, quidem magni cupiditate aliquam explicabo, possimus nostrum sint nesciunt ratione tempore? Expedita voluptatem quae adipisci laborum. Quisquam, repudiandae!
+
+
+{% endblock body %}

@@ -3,19 +3,51 @@ from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 
+from .admin_mixins import ExportAsCSVMixin
+
 from .models import Order, Product
 
 
 class OrderInline(admin.TabularInline):
     model = Product.orders.through
 
+@admin.action(description='Архивировать товары')
+def archive(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
+    queryset.update(archived=True)
+
+@admin.action(description='Разархивировать товары')
+def unarchive(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
+    queryset.update(archived=False)
+
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin, ExportAsCSVMixin):
+    actions = [archive, unarchive, 'export_csv']
     inlines = [OrderInline]
-    list_display = 'pk', 'name', 'short_description', 'price', 'discount'
+    list_display = 'pk', 'name', 'short_description', 'price', 'discount', 'archived'
     list_display_links = 'pk', 'name'
     ordering = 'name',
     search_fields = 'name', 'description'
+    fieldsets = [
+        (
+            None, {
+                "fields": ['name', 'description']
+            },
+            
+        ),
+        (
+            "Shop Options", {
+                "fields": ['price', 'discount'],
+                "classes": ['collapse', 'wide']
+            }
+        ),
+        (
+            "Extra", {
+                "fields": ['archived'],
+                "classes": ['collapse'],
+                "description": "This field for soft delete"
+            }
+        )
+    ]
 
     def short_description(self, obj: Product)->str:
         if(len(obj.description) < 30):

@@ -7,7 +7,8 @@
 </head>
 <body>
     {% block body %}{% endblock body %}
+    <br>
 
-    <div>{% now "SHORT_DATE_FORMAT" %}</div>    
+    <div>Сейчас - {% now "H:i:s d.m.Y" %}</div>    
 </body>
 </html>

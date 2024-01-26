@@ -1,0 +1,17 @@
+{% extends "shopapp/base.html" %}
+{% block title %}Товары{% endblock title %}
+{% block body %}
+
+
+{% if products %}
+    {% for product in products %}
+        <div>
+            {{product.name}} - {{product.price}} - {% firstof product.discount 'без скидки' %}
+        </div>
+    {% endfor %}
+{% else %}
+    Товары ещё не добавлены
+{% endif %}
+
+
+{% endblock body %}

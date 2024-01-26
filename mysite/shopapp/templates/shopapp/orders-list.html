@@ -1,0 +1,31 @@
+{% extends "shopapp/base.html" %}
+{% block title %}Заказы{% endblock title %}
+{% block body %}
+
+
+{% if orders %}
+    {% for order in orders %}
+        <div>
+            <p>Адрес: {{order.delivery_address}}</p>
+            <p>Промокод: {{order.promocode}}</p>
+            <p>Клиент: {% firstof order.user.first_name order.user.username %}</p>
+            <p>Дата заказа: {{order.created_at}}</p>
+            {% if order.products.count %}
+                <h4>Товары в заказе</h4>
+                <ul>
+                {% for product in order.products.all %}
+                    <li>{{product.name}} for ${{product.price}}
+                        <div>{{product.short_description}}</div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    Заказов пока нет
+{% endif %}
+
+
+{% endblock body %}

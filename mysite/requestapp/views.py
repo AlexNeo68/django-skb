@@ -2,6 +2,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 
+from .forms import UserBioForm
+
 def index(request:HttpRequest)->HttpResponse:
     context = {
         'a': request.GET.get('a'),
@@ -11,10 +13,12 @@ def index(request:HttpRequest)->HttpResponse:
     return render(request, 'requestapp/index.html', context)
 
 def handle_post(request:HttpRequest):
-    return render(request, 'requestapp/post.html')
+    context = {
+        'form': UserBioForm(),
+    }
+    return render(request, 'requestapp/post.html', context)
 
 def handle_file(request:HttpRequest)->HttpResponse:
-    1/0
     filename = ''
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']

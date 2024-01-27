@@ -5,18 +5,7 @@
 
 <form action="" method="post">
     {% csrf_token %}
-    <p>
-        <label for="name-id">Имя</label>
-        <input type="text" name="name" id="name-id" />
-    </p>
-    <p>
-        <label for="age-id">Возраст</label>
-        <input type="number" name="age" id="age-id" />
-    </p>
-    <p>
-        <label for="bio-id">О себе</label>
-        <textarea name="bio" id="bio-id" rows="5"></textarea>
-    </p>
+    {{form.as_p}}
     <button type='submit'>Отправить</button>
 </form>
 

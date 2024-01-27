@@ -2,6 +2,13 @@
 {% block title %}Index for shopapp{% endblock title %}
 {% block body %}
 
+
+<form method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Создать группу</button>
+</form>
+
 <ul>
     {% for group in groups %}
         <li>{{group.name}} <code>{{gtoup.codename}}</code>

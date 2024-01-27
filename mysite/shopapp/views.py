@@ -1,30 +1,41 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.views import View
 from django.views.generic import ListView
 from django.contrib.auth.models import Group
 
-from .forms import ProductFormCreate
+from .forms import GroupForm, ProductFormCreate
 
 from .models import Order, Product
 
+class ShopView(View):
+    def get(self, request:HttpRequest):
+        products = [
+            ('Iphone', '1999'),
+            ('iMac', '2999'),
+            ('MacPro', '1500'),
+        ]
+        context = {
+            'products': products
+        }
+        return render(request, 'shopapp/index.html', context)
 
-def index(request:HttpRequest):
-    products = [
-        ('Iphone', '1999'),
-        ('iMac', '2999'),
-        ('MacPro', '1500'),
-    ]
-    context = {
-        'products': products
-    }
-    return render(request, 'shopapp/index.html', context)
 
-def get_groups(request: HttpRequest):
-    context = {
-        'groups': Group.objects.prefetch_related('permissions').all()
-    }
-    return render(request, 'shopapp/groups-list.html', context)
+class GroupView(View):
+    def get(self, request: HttpRequest):
+        context = {
+            'groups': Group.objects.prefetch_related('permissions').all(),
+            'form': GroupForm()
+        }
+        return render(request, 'shopapp/groups-list.html', context)
+    def post(self, request: HttpRequest):
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('shopapp:get-groups')
+
+    
 
 
 def get_products(request: HttpRequest):

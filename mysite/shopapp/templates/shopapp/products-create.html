@@ -1,0 +1,17 @@
+{% extends "shopapp/base.html" %}
+{% block title %}Товары{% endblock title %}
+{% block body %}
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Отправить</button>
+</form>
+
+
+<div>
+    <a href="{% url "shopapp:get-products" %}">К списку товаров</a>
+</div>
+
+
+{% endblock body %}

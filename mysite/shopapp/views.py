@@ -1,7 +1,10 @@
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import ListView
 from django.contrib.auth.models import Group
+
+from .forms import ProductFormCreate
 
 from .models import Order, Product
 
@@ -29,6 +32,21 @@ def get_products(request: HttpRequest):
         'products': Product.objects.all()
     }
     return render(request, 'shopapp/products-list.html', context)
+
+def create_product(request: HttpRequest):
+    if request.method == "POST":
+        form = ProductFormCreate(request.POST)
+        if form.is_valid():
+            Product.objects.create(**form.cleaned_data)
+            url = reverse('shopapp:get-products')
+            return redirect(url)
+    else: 
+        form = ProductFormCreate()
+        
+    context = {
+        'form': form
+    }
+    return render(request, 'shopapp/products-create.html', context)
 
 def get_orders(request: HttpRequest):
     context = {

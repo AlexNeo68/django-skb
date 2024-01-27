@@ -1,0 +1,15 @@
+{% extends "shopapp/base.html" %}
+{% block title %}Товары{% endblock title %}
+{% block body %}
+
+<h1>{{product.name}}</h1>
+<p>Description: {{product.description}}</p>
+<p>Price: {{product.price}}</p>
+<p>Discount: {{product.discount}}</p>
+
+<div>
+    <a href="{% url "shopapp:get-products" %}">К списку</a>
+</div>
+
+
+{% endblock body %}

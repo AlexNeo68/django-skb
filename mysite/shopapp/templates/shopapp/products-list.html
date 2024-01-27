@@ -6,8 +6,11 @@
 {% if products %}
     {% for product in products %}
         <div>
-            {{product.name}} - {{product.price}} - {% firstof product.discount 'без скидки' %}
+            <a href="{{product.get_absolute_url}}">
+                {{product.name}} - {{product.price}} - {% firstof product.discount 'без скидки' %}
+            </a>
         </div>
+        <hr>
     {% endfor %}
 {% else %}
     Товары ещё не добавлены

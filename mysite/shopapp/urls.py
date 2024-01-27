@@ -6,7 +6,8 @@ app_name='shopapp'
 urlpatterns = [
     path("", ShopView.as_view(), name='shopapp-index'),
     path("groups/", GroupView.as_view(), name='get-groups'),
-    path("products/", get_products, name='get-products'),
+    path("products/", ProductsListView.as_view(), name='get-products'),
+    path("products/<int:pk>/", ProductDetailView.as_view(), name='product-detail'),
     path("products/create/", create_product, name='create-products'),
     path("orders", get_orders, name='get-orders'),
 ]

@@ -1,8 +1,8 @@
 from django.http import HttpRequest
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.contrib.auth.models import Group
 
 from .forms import GroupForm, ProductFormCreate
@@ -36,13 +36,24 @@ class GroupView(View):
             return redirect('shopapp:get-groups')
 
     
+class ProductsListView(TemplateView):
+    template_name = 'shopapp/products-list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.all()
+        return context
 
-def get_products(request: HttpRequest):
-    context = {
-        'products': Product.objects.all()
-    }
-    return render(request, 'shopapp/products-list.html', context)
+class ProductDetailView(View):
+    def get(self, request:HttpRequest, pk:int):
+        product = get_object_or_404(Product, pk=pk)
+        context = {
+            "product": product
+        }
+        return render(request, 'shopapp/product-detail.html', context)
+
+    
+
 
 def create_product(request: HttpRequest):
     if request.method == "POST":

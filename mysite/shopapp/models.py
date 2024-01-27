@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -9,6 +10,10 @@ class Product(models.Model):
     discount = models.SmallIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     archived = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return reverse("shopapp:product-detail", kwargs={"pk": self.pk})
+    
 
     class Meta:
         ordering = ['name']

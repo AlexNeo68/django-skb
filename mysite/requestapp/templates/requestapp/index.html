@@ -1,0 +1,15 @@
+{% extends "requestapp/base.html" %}
+{% block title %}Главная{{ block.super }}{% endblock title %}
+{% block body %}
+<h1>This is handle request page</h1>
+<p>{{request.method}}</p>
+<p>
+    a: {{a}}
+</p>
+<p>
+    b: {{b}}
+</p>
+<p>
+    result: {{result}}
+</p>
+{% endblock body %}

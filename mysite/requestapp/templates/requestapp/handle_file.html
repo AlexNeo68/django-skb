@@ -1,0 +1,21 @@
+{% extends "requestapp/base.html" %}
+{% block title %}Главная{{ block.super }}{% endblock title %}
+{% block body %}
+<h1>Обработка POST из формы</h1>
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+        <label for="fileupload-id">Выберите файл</label>
+        <input type="file" name="myfile" id="fileupload-id" />
+    </p>
+    <button type='submit'>Отправить</button>
+</form>
+
+
+{% if request.POST %}
+<h2>Отправленные данные</h2>
+<p>filename: {{filename}}</p>
+{% endif %}
+
+{% endblock body %}

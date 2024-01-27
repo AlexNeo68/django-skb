@@ -1,0 +1,37 @@
+{% extends "requestapp/base.html" %}
+{% block title %}Главная{{ block.super }}{% endblock title %}
+{% block body %}
+<h1>Обработка POST из формы</h1>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <p>
+        <label for="name-id">Имя</label>
+        <input type="text" name="name" id="name-id" />
+    </p>
+    <p>
+        <label for="age-id">Возраст</label>
+        <input type="number" name="age" id="age-id" />
+    </p>
+    <p>
+        <label for="bio-id">О себе</label>
+        <textarea name="bio" id="bio-id" rows="5"></textarea>
+    </p>
+    <button type='submit'>Отправить</button>
+</form>
+
+
+{% if request.POST %}
+<h2>Отправленные данные</h2>
+<p>
+    <span>Имя:</span> <span>{{request.POST.name}}</span>
+</p>
+<p>
+    <span>Возраст:</span> <span>{{request.POST.age}}</span>
+</p>
+<p>
+    <span>О себе:</span> <span>{{request.POST.bio}}</span>
+</p>
+{% endif %}
+
+{% endblock body %}

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 # local
     "shopapp.apps.ShopappConfig",
+    "requestapp.apps.RequestappConfig",
 # 3rd
     "debug_toolbar",
 ]

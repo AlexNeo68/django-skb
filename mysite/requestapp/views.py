@@ -14,6 +14,7 @@ def handle_post(request:HttpRequest):
     return render(request, 'requestapp/post.html')
 
 def handle_file(request:HttpRequest)->HttpResponse:
+    1/0
     filename = ''
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']

@@ -1,0 +1,16 @@
+{% extends "myauth/base.html" %}
+{% block title %}Аутентификация{% endblock title %}
+{% block body %}
+
+{% if request.user.is_authenticated %}
+    <h2>Profile for {{request.user.username}}</h2>
+    <a href="{% url "myauth:logout" %}">Выйти</a>
+
+{% else %}
+    <h4>Пользователь не авторизован</h4>
+    <p><a href="{% url "myauth:login" %}">Авторизоваться</a></p>
+{% endif %}
+
+
+
+{% endblock body %}

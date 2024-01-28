@@ -3,6 +3,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import CreateView, TemplateView
 
 # class LoginView(View):
 #     def get(self, request:HttpRequest):
@@ -49,3 +51,21 @@ def get_session_view(request:HttpRequest)->HttpResponse:
     session_value = request.session.get('alexneo', 'default value session')
     return HttpResponse(f'Session value {session_value}')
 
+class ProfileView(TemplateView):
+    template_name = 'myauth/about-me.html'
+
+class MyAuthRegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'myauth/register.html'
+    success_url = reverse_lazy('myauth:profile')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password1')
+        user = authenticate(self.request, username=username, password=password)
+        login(request=self.request, user=user)
+        
+        return response
+    

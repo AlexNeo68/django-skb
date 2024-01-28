@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-from django.conf.global_settings import LOGIN_REDIRECT_URL
+from django.conf.global_settings import LOGIN_REDIRECT_URL, LOGIN_URL
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -143,3 +143,4 @@ INTERNAL_IPS = [
 
 
 LOGIN_REDIRECT_URL = reverse_lazy('myauth:profile')
+LOGIN_URL = reverse_lazy('myauth:login')

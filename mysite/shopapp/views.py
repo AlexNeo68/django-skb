@@ -3,7 +3,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
-from django.contrib.auth.models import Group
+
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .forms import GroupForm, ProductFormCreate
 
@@ -86,10 +87,11 @@ class ProductConfirmDeleteView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class OrderListView(ListView):
+class OrderListView(LoginRequiredMixin, ListView):
     queryset= (Order.objects.select_related('user').prefetch_related('products'))
     context_object_name = 'orders'
 
-class OrderDetailView(DetailView):
+class OrderDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = 'view_order',
     queryset= (Order.objects.select_related('user').prefetch_related('products'))
     context_object_name = 'order'

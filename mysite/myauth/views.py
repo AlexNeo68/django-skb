@@ -5,6 +5,8 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, TemplateView
+from .models import Profile
+from django.contrib.auth.decorators import login_required
 
 # class LoginView(View):
 #     def get(self, request:HttpRequest):
@@ -47,12 +49,18 @@ def set_session_view(request:HttpRequest)->HttpResponse:
     request.session['alexneo'] = 'sherry'
     return HttpResponse('Сессия сохранена')
 
+@login_required
 def get_session_view(request:HttpRequest)->HttpResponse:
     session_value = request.session.get('alexneo', 'default value session')
     return HttpResponse(f'Session value {session_value}')
 
 class ProfileView(TemplateView):
     template_name = 'myauth/about-me.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.request.user
+        return context
+    
 
 class MyAuthRegisterView(CreateView):
     form_class = UserCreationForm
@@ -61,6 +69,8 @@ class MyAuthRegisterView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        
+        Profile.objects.create(user=self.object)
 
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password1')

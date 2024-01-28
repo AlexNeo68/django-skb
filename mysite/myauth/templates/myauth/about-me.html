@@ -2,8 +2,9 @@
 {% block title %}Аутентификация{% endblock title %}
 {% block body %}
 
-{% if request.user.is_authenticated %}
-    <h2>Profile for {{request.user.username}}</h2>
+{% if user.is_authenticated %}
+    <h2>Profile for {{user.username}}</h2>
+    <p>Bio: {{user.profile.bio}}</p>
     <a href="{% url "myauth:logout" %}">Выйти</a>
 
 {% else %}

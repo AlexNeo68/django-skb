@@ -38,3 +38,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     products = models.ManyToManyField(Product, related_name='orders')
 
+    def get_absolute_url(self):
+        return reverse("shopapp:order-detail", kwargs={"pk": self.pk})
+    
+

@@ -6,6 +6,9 @@
 {% if orders %}
     {% for order in orders %}
         <div>
+            <p>
+                <a href="{{order.get_absolute_url}}">Заказ № {{order.pk}}</a>
+            </p>
             <p>Адрес: {{order.delivery_address}}</p>
             <p>Промокод: {{order.promocode}}</p>
             <p>Клиент: {% firstof order.user.first_name order.user.username %}</p>

@@ -6,6 +6,15 @@
 <p>Description: {{product.description}}</p>
 <p>Price: {{product.price}}</p>
 <p>Discount: {{product.discount}}</p>
+<p>Архивирован: {{product.archived}}</p>
+
+<p>
+    <a href="{% url "shopapp:product-edit" pk=product.pk %}">Редактировать</a>
+</p>
+
+<p>
+    <a href="{% url "shopapp:product-confirm-delete" pk=product.pk %}">Удалить товар</a>
+</p>
 
 <div>
     <a href="{% url "shopapp:get-products" %}">К списку</a>

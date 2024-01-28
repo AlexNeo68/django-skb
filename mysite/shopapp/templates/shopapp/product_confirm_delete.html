@@ -1,0 +1,16 @@
+{% extends "shopapp/base.html" %}
+{% block title %}Товары{% endblock title %}
+{% block body %}
+
+<h2>Вы уверены что хотите удалить товар "{{object.name}}"?</h2>
+
+<div>
+    <a href="object.get_absolute_url">Назад</a>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+
+{% endblock body %}

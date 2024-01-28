@@ -21,5 +21,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("shop/", include('shopapp.urls')),
     path("req/", include('requestapp.urls')),
+    path("auth/", include('myauth.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 ]

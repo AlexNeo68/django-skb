@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, TemplateView
 from .models import Profile
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 
 # class LoginView(View):
 #     def get(self, request:HttpRequest):
@@ -34,7 +34,7 @@ class MyAuthLogoutView(auth_views.LogoutView):
     next_page = reverse_lazy('myauth:login')
 
 
-
+@user_passes_test(lambda u:u.is_superuser)
 def set_cookie_view(request:HttpRequest)->HttpResponse:
     response = HttpResponse('Куки установлены')
     response.set_cookie('fizz', 'bro-value', max_age=3600)
@@ -44,7 +44,7 @@ def get_cookie_view(request:HttpRequest)->HttpResponse:
     value = request.COOKIES.get('fizz', 'default value fizz')
     return HttpResponse(f'Cookie values is: {value}')
 
-
+@permission_required('myauth.view_profile', raise_exception=True)
 def set_session_view(request:HttpRequest)->HttpResponse:
     request.session['alexneo'] = 'sherry'
     return HttpResponse('Сессия сохранена')

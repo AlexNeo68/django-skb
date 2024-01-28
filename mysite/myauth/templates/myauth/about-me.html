@@ -5,6 +5,7 @@
 {% if user.is_authenticated %}
     <h2>Profile for {{user.username}}</h2>
     <p>Bio: {{user.profile.bio}}</p>
+    <p>{{user.user_permissions.all}}</p>
     <a href="{% url "myauth:logout" %}">Выйти</a>
 
 {% else %}

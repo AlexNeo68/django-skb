@@ -4,7 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
 from .forms import GroupForm, ProductFormCreate
 
@@ -49,7 +49,10 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
     queryset = Product.objects.filter(archived=False)
 
-class ProductCreateView(CreateView):
+class ProductCreateView(UserPassesTestMixin, CreateView):
+    def test_func(self) -> bool | None:
+        return self.request.user.is_superuser
+    
     model = Product
     fields = 'name', 'description', 'price', 'discount'
     success_url = reverse_lazy('shopapp:get-products')
@@ -92,6 +95,6 @@ class OrderListView(LoginRequiredMixin, ListView):
     context_object_name = 'orders'
 
 class OrderDetailView(PermissionRequiredMixin, DetailView):
-    permission_required = 'view_order',
+    permission_required = 'shopapp.view_order'
     queryset= (Order.objects.select_related('user').prefetch_related('products'))
     context_object_name = 'order'

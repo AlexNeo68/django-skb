@@ -1,7 +1,8 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
-from django.views import View
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth import views as auth_views
 
 # class LoginView(View):
 #     def get(self, request:HttpRequest):
@@ -18,6 +19,16 @@ from django.views import View
 #             return redirect('/admin/')
         
 #         return render(request, 'myauth/login.html', {'error': 'Некорректные имя пользователя или пароль'})
+
+
+def logout_view(request:HttpRequest):
+    logout(request)
+    return redirect(reverse('myauth:login'))
+
+
+class MyAuthLogoutView(auth_views.LogoutView):
+    next_page = reverse_lazy('myauth:login')
+
 
 
 def set_cookie_view(request:HttpRequest)->HttpResponse:

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import get_cookie_view, set_cookie_view, set_session_view, get_session_view
+from .views import get_cookie_view, set_cookie_view, set_session_view, get_session_view, MyAuthLogoutView, logout_view
 from django.contrib.auth import views as auth_views
 
 app_name='myauth'
@@ -11,4 +11,6 @@ urlpatterns = [
     path('get-cookie/', get_cookie_view, name='get-cookie'),
     path('get-session/', get_session_view, name='get-session'),
     path('set-session/', set_session_view, name='set-session'),
+    # path('logout/', MyAuthLogoutView.as_view(), name='logout'),
+    path('logout/', logout_view, name='logout'),
 ]

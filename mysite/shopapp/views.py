@@ -54,7 +54,7 @@ class ProductCreateView(UserPassesTestMixin, CreateView):
         return self.request.user.is_superuser
     
     model = Product
-    fields = 'name', 'description', 'price', 'discount'
+    fields = 'name', 'description', 'price', 'discount', 'preview',
     success_url = reverse_lazy('shopapp:get-products')
 
 # def create_product(request: HttpRequest):
@@ -74,7 +74,7 @@ class ProductCreateView(UserPassesTestMixin, CreateView):
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = 'name', 'description', 'price', 'discount'
+    fields = 'name', 'description', 'price', 'discount', 'preview',
     def get_success_url(self):
         return self.object.get_absolute_url()
 

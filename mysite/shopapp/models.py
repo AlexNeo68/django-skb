@@ -3,6 +3,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+
+def gen_product_preview_directory_name(instance: "Product", filename: str) -> str:
+    return "products/product_{pk}/preview/{filename}".format(pk=instance.pk, filename=filename)
+
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=False)
@@ -10,6 +14,7 @@ class Product(models.Model):
     discount = models.SmallIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     archived = models.BooleanField(default=False)
+    preview = models.ImageField(blank=True, null=True, upload_to=gen_product_preview_directory_name)
 
     def get_absolute_url(self):
         return reverse("shopapp:product-detail", kwargs={"pk": self.pk})
@@ -37,6 +42,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     products = models.ManyToManyField(Product, related_name='orders')
+    reciept = models.FileField(null=True, upload_to="orders/receipts/")
 
     def get_absolute_url(self):
         return reverse("shopapp:order-detail", kwargs={"pk": self.pk})

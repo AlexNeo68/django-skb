@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
+from django.views import View
 from django.views.generic import CreateView, TemplateView
 from .models import Profile
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
@@ -78,4 +79,8 @@ class MyAuthRegisterView(CreateView):
         login(request=self.request, user=user)
         
         return response
+
+class FooBarView(View):
+    def get(self, request):
+        return JsonResponse({'foo': 123, 'bar': 456})
     

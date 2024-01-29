@@ -5,11 +5,28 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
 
+from rest_framework.viewsets import ModelViewSet
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+
+from .serializer import ProductSerializer
 
 from .forms import GroupForm, ProductForm
 
 from .models import Order, Product, ProductImage
+
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+
+class ProductViewSet(ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter] 
+    search_fields = ['name', 'description']
+    ordering_fields = ['name', 'description', 'price']
+
+    filterset_fields = ['name', 'description', 'price', 'discount', 'archived']
+
 
 class ShopView(View):
     def get(self, request:HttpRequest):
@@ -49,6 +66,10 @@ class ProductDetailView(DetailView):
     template_name = 'shopapp/product-detail.html'
     context_object_name = 'product'
     queryset = Product.objects.filter(archived=False).prefetch_related('images')
+
+
+
+
 
 class ProductCreateView(UserPassesTestMixin, CreateView):
     def test_func(self) -> bool | None:

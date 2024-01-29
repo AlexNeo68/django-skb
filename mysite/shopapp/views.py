@@ -1,4 +1,5 @@
-from django.http import HttpRequest, HttpResponseRedirect
+from django.forms.models import BaseModelForm
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import View
@@ -6,9 +7,9 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, T
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
-from .forms import GroupForm, ProductFormCreate
+from .forms import GroupForm, ProductForm
 
-from .models import Order, Product
+from .models import Order, Product, ProductImage
 
 class ShopView(View):
     def get(self, request:HttpRequest):
@@ -47,7 +48,7 @@ class ProductDetailView(DetailView):
     # model = Product
     template_name = 'shopapp/product-detail.html'
     context_object_name = 'product'
-    queryset = Product.objects.filter(archived=False)
+    queryset = Product.objects.filter(archived=False).prefetch_related('images')
 
 class ProductCreateView(UserPassesTestMixin, CreateView):
     def test_func(self) -> bool | None:
@@ -74,9 +75,17 @@ class ProductCreateView(UserPassesTestMixin, CreateView):
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = 'name', 'description', 'price', 'discount', 'preview',
+    # fields = 'name', 'description', 'price', 'discount', 'preview',
+    form_class = ProductForm
     def get_success_url(self):
         return self.object.get_absolute_url()
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        response = super().form_valid(form)
+        for image in form.files.getlist("images"):
+            ProductImage.objects.create(image=image, product=self.object)
+
+        return response
 
 class ProductConfirmDeleteView(DeleteView):
     model = Product

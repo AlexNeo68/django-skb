@@ -34,7 +34,15 @@ class Product(models.Model):
             return self.description
         else:
             return self.description[:48] + '...'
-    
+        
+
+def gen_product_images_directory_name(instance: "Product", filename: str) -> str:
+    return "products/product_{pk}/images/{filename}".format(pk=instance.product.pk, filename=filename)
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to=gen_product_images_directory_name)
 
 class Order(models.Model):
     delivery_address = models.TextField(blank=True, null=True)

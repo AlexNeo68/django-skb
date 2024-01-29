@@ -1,14 +1,16 @@
-from django.forms import ModelForm
+from django import forms
 from .models import Product
 from django.contrib.auth.models import Group
 
-class ProductFormCreate(ModelForm):
+class ProductForm(forms.ModelForm):
     
     class Meta:
         model = Product
-        fields = "name", "description", "price", "discount"
+        fields = "name", "description", "price", "discount", 'preview'
+    
+    images = forms.ImageField(widget=forms.ClearableFileInput())
 
-class GroupForm(ModelForm):
+class GroupForm(forms.ModelForm):
 
     class Meta:
         model = Group

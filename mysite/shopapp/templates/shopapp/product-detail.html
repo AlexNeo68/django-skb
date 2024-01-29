@@ -11,6 +11,17 @@
 <img src="{{product.preview.url}}" alt="{{product.name}}" width="50%">
 {% endif %}
 
+<div>
+    <h4>Доп изображения</h4>
+    <div>
+    {% for img in product.images.all %}
+        <img src="{{img.image.url}}" alt="{{product.name}}">
+    {% empty %}
+        <span>Изобржения не загужены</span>
+    {% endfor %}
+    </div>
+</div>
+
 <p>
     <a href="{% url "shopapp:product-edit" pk=product.pk %}">Редактировать</a>
 </p>

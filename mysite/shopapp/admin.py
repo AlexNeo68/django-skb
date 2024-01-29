@@ -5,11 +5,14 @@ from django.http.request import HttpRequest
 
 from .admin_mixins import ExportAsCSVMixin
 
-from .models import Order, Product
+from .models import Order, Product, ProductImage
 
 
 class OrderInline(admin.TabularInline):
     model = Product.orders.through
+
+class ProductImageInline(admin.StackedInline):
+    model = ProductImage
 
 @admin.action(description='Архивировать товары')
 def archive(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
@@ -22,7 +25,7 @@ def unarchive(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: Quer
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin, ExportAsCSVMixin):
     actions = [archive, unarchive, 'export_csv']
-    inlines = [OrderInline]
+    inlines = [OrderInline, ProductImageInline]
     list_display = 'pk', 'name', 'short_description', 'price', 'discount', 'archived'
     list_display_links = 'pk', 'name'
     ordering = 'name',
@@ -33,6 +36,12 @@ class ProductAdmin(admin.ModelAdmin, ExportAsCSVMixin):
                 "fields": ['name', 'description']
             },
             
+        ),
+        (
+            "Images", {
+                "fields": ['preview'],
+                "classes": ['wide']
+            }
         ),
         (
             "Shop Options", {

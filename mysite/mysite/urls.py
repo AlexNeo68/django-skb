@@ -23,7 +23,6 @@ from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("shop/", include('shopapp.urls')),
     path("req/", include('requestapp.urls')),
     path("auth/", include('myauth.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
@@ -31,6 +30,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path("auth/", include('myauth.urls')),
+    path("shop/", include('shopapp.urls')),
 )
 
 if settings.DEBUG:

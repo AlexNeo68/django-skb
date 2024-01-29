@@ -1,27 +1,63 @@
 {% extends "shopapp/base.html" %}
-{% block title %}Товары{% endblock title %}
+{% load i18n %}
+{% block title %}{% translate "Products list" %}{% endblock title %}
 {% block body %}
 
-
+<h1>{% translate "Products" %}</h1>
 {% if products %}
+    <div>
+        {% blocktranslate count products_count=products|length %}
+            There is one product
+            {%plural%}
+            There is {{products_count}} products
+        {% endblocktranslate %}
+    </div>
     {% for product in products %}
         <div>
-            <a href="{{product.get_absolute_url}}">
-                {{product.name}} - {{product.price}} - {% firstof product.discount 'без скидки' %}
-            </a>
+            <p>
+                {% translate "Name" context 'product name' %}
+                <a href="{{product.get_absolute_url}}">
+                    {{product.name}}
+                </a>
+            </p>
+            <p>
+                <span>{% translate "Price" %}: {{product.price}}</span>
+            </p>
+
+            <p>
+                {% translate "no discount" as no_discount %}
+                <span>{% translate "Discount" %}: {% firstof product.discount no_discount %}</span>
+            </p>
+            
             {% if product.preview %}
-            <img src="{{product.preview.url}}" alt="{{product.name}}" style="width: 200px">
+                <img src="{{product.preview.url}}" alt="{{product.name}}" style="width: 200px">
             {% endif %}
         </div>
         <hr>
     {% endfor %}
+
+    {% url "shopapp:create-products" as create_product_url %}
+
+    {% blocktranslate %}
+        <div>
+            <a href="{{create_product_url}}">Create product</a>
+        </div>
+    {% endblocktranslate %}
+
+
 {% else %}
-    Товары ещё не добавлены
+    
+    {% url "shopapp:create-products" as create_product_url %}
+
+    {% blocktranslate %}
+        <span>Products not yet</span>
+        <div>
+            <a href="{{create_product_url}}">Create product</a>
+        </div>
+    {% endblocktranslate %}
 {% endif %}
 
-<div>
-    <a href="{% url "shopapp:create-products" %}">Создать товар</a>
-</div>
+
 
 
 {% endblock body %}

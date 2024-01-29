@@ -2,6 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 
 def gen_product_preview_directory_name(instance: "Product", filename: str) -> str:
@@ -22,7 +23,7 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['name']
-        verbose_name = 'Товар'
+        verbose_name = _('Товар')
         verbose_name_plural = 'Товары'
 
     def __str__(self):
@@ -51,6 +52,10 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     products = models.ManyToManyField(Product, related_name='orders')
     reciept = models.FileField(null=True, upload_to="orders/receipts/")
+
+    class Meta:
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
 
     def get_absolute_url(self):
         return reverse("shopapp:order-detail", kwargs={"pk": self.pk})

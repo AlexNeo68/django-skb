@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _, ngettext
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -84,3 +85,23 @@ class FooBarView(View):
     def get(self, request):
         return JsonResponse({'foo': 123, 'bar': 456})
     
+
+class HelloWorldTransView(View):
+    welcome_message = _('hello my world')
+
+    def get(self, request:HttpRequest):
+        items_str = request.GET.get('items') or 0
+        items = int(items_str)
+
+        products_line = ngettext(
+            "one product",
+            "{count} products",
+            items,
+        )
+
+        products_line = products_line.format(count=items)
+
+        return HttpResponse(
+            f'<h1>{self.welcome_message}</h1>'
+            f'\n<h2>{products_line}</h1>'
+        )

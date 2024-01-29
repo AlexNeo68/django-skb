@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     FooBarView,
+    HelloWorldTransView,
     get_cookie_view, 
     set_cookie_view, 
     set_session_view, 
@@ -26,4 +27,5 @@ urlpatterns = [
     path('about-me/', ProfileView.as_view(), name='profile'),
     path('register/', MyAuthRegisterView.as_view(), name='register'),
     path('foo-bar/', FooBarView.as_view(), name='foobar'),
+    path('hello/', HelloWorldTransView.as_view(), name='hello'),
 ]

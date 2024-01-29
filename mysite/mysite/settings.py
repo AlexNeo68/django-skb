@@ -47,8 +47,10 @@ INSTALLED_APPS = [
     "shopapp.apps.ShopappConfig",
     "requestapp.apps.RequestappConfig",
     "myauth.apps.MyauthConfig",
+    "myapi.apps.MyapiConfig",
 # 3rd
     "debug_toolbar",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -160,3 +162,8 @@ INTERNAL_IPS = [
 
 LOGIN_REDIRECT_URL = reverse_lazy('myauth:profile')
 LOGIN_URL = reverse_lazy('myauth:login')
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}

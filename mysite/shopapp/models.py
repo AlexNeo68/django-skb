@@ -9,6 +9,10 @@ def gen_product_preview_directory_name(instance: "Product", filename: str) -> st
     return "products/product_{pk}/preview/{filename}".format(pk=instance.pk, filename=filename)
 
 class Product(models.Model):
+    """
+    Product - модель для хранения информации о товаре
+    Заказы тут - :model:`shopapp.Order`
+    """
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=False)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)

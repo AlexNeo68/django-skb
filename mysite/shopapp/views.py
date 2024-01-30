@@ -1,9 +1,9 @@
 from django.forms.models import BaseModelForm
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from rest_framework.viewsets import ModelViewSet
 
@@ -19,6 +19,9 @@ from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
 class ProductViewSet(ModelViewSet):
+    """
+    Полный CRUD операций с моделью Product
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter] 

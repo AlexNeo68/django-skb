@@ -1,3 +1,4 @@
+import logging
 from django.forms.models import BaseModelForm
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -22,6 +23,7 @@ class ProductViewSet(ModelViewSet):
     """
     Полный CRUD операций с моделью Product
     """
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter] 
@@ -33,6 +35,9 @@ class ProductViewSet(ModelViewSet):
 
 class ShopView(View):
     def get(self, request:HttpRequest):
+        
+        log = logging.getLogger(__name__)
+
         products = [
             ('Iphone', '1999'),
             ('iMac', '2999'),
@@ -41,6 +46,10 @@ class ShopView(View):
         context = {
             'products': products
         }
+
+        log.debug('Products for shop index - %s', products)
+        log.info('Products for shop index - %s', products)
+
         return render(request, 'shopapp/index.html', context)
 
 

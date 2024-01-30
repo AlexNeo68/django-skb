@@ -181,12 +181,17 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
+LOGFILE_NAME =BASE_DIR / 'debug.log'
+# LOGFILE_SIZE = 400
+LOGFILE_SIZE = 1 * 1024 *1024
+LOGFILE_COUNT = 3
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
-            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "format": "{asctime}, [{levelname}] ({name}): {module} : {message}",
             "style": "{",
         },
         "simple": {
@@ -194,24 +199,39 @@ LOGGING = {
             "style": "{",
         },
     },
-    "filters": {
-        "require_debug_true": {
-            "()": "django.utils.log.RequireDebugTrue",
-        },
-    },
+    # "filters": {
+    #     "require_debug_true": {
+    #         "()": "django.utils.log.RequireDebugTrue",
+    #     },
+    # },
     "handlers": {
         "console": {
-            "level": "DEBUG",
-            "filters": ["require_debug_true"],
+            # "level": "DEBUG",
+            # "filters": ["require_debug_true"],
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
-    },
-    "loggers": {
-        "django.db.backends": {
-            "level": "DEBUG",
-            "handlers": ["console"],
-            "propagate": True,
+        "logfile": {
+            "class": "logging.handlers.RotatingFileHandler",
+            # "class": "logging.FileHandler",
+            "filename": LOGFILE_NAME,
+            "maxBytes": LOGFILE_SIZE,
+            "backupCount": LOGFILE_COUNT,
+            "formatter": "verbose",
         },
     },
+    "root": {
+        "handlers": [
+            "console", 
+            "logfile"
+        ],
+        "level": "DEBUG",
+    },
+    # "loggers": {
+    #     "django.db.backends": {
+    #         "level": "DEBUG",
+    #         "handlers": ["console"],
+    #         "propagate": True,
+    #     },
+    # },
 }

@@ -27,12 +27,10 @@ urlpatterns = [
     path("admin/doc/", include('django.contrib.admindocs.urls')),
     path("admin/", admin.site.urls),
     path("req/", include('requestapp.urls')),
-    path("auth/", include('myauth.urls')),
     
-    path("api/schema", SpectacularAPIView.as_view(), name='schema'),
-    path("api/schema/swagger/", SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
     path("api/schema/redoc/", SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-    path("api/schema", SpectacularAPIView.as_view(), name='schema'),
 
     path("api/", include('myapi.urls')),
 

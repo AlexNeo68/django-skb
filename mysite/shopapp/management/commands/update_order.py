@@ -8,7 +8,7 @@ class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any):
         self.stdout.write('Updating order')
 
-        order = Order.objects.first()
+        order = Order.objects.last()
         if not order:
             self.stdout.write(self.style.ERROR('Order not found'))
 

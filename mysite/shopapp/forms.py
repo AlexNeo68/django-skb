@@ -15,3 +15,6 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = 'name',
+
+class ImportCSVForm(forms.Form):
+    csv_file = forms.FileField()

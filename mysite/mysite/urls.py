@@ -19,6 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.i18n import i18n_patterns
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import sitemaps
 
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
@@ -35,6 +37,13 @@ urlpatterns = [
     path("api/", include('myapi.urls')),
 
     path("__debug__/", include("debug_toolbar.urls")),
+    
+    path(
+    "sitemap.xml",
+    sitemap,
+    {"sitemaps": sitemaps},
+    name="django.contrib.sitemaps.views.sitemap",
+)
 
 ]
 

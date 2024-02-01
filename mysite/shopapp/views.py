@@ -4,6 +4,7 @@ from django.forms.models import BaseModelForm
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
@@ -22,6 +23,8 @@ from rest_framework.request import Request
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from django.views.decorators.cache import cache_page
+
 class ProductViewSet(ModelViewSet):
     """
     Полный CRUD операций с моделью Product
@@ -34,6 +37,11 @@ class ProductViewSet(ModelViewSet):
     ordering_fields = ['name', 'description', 'price']
 
     filterset_fields = ['name', 'description', 'price', 'discount', 'archived']
+
+    @method_decorator(cache_page(60))
+    def list(self, request, *args, **kwargs):
+        print('bez cache')
+        return super().list(request, *args, **kwargs)
 
 
 class ShopView(View):

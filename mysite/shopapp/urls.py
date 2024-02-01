@@ -1,6 +1,7 @@
 from django.urls import include, path
 from .views import *
 from rest_framework.routers import DefaultRouter
+from django.views.decorators.cache import cache_page
 
 app_name='shopapp'
 
@@ -8,7 +9,7 @@ routers = DefaultRouter()
 routers.register('products', ProductViewSet)
 
 urlpatterns = [
-    path("", ShopView.as_view(), name='shopapp-index'),
+    path("", cache_page(60)(ShopView.as_view()), name='shopapp-index'),
     path("groups/", GroupView.as_view(), name='get-groups'),
     path("products/", ProductsListView.as_view(), name='get-products'),
     path("products/create/", ProductCreateView.as_view(), name='create-products'),

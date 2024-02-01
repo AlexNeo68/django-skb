@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 15:53+0300\n"
+"POT-Creation-Date: 2024-02-01 07:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,18 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: blogapp/templates/blogapp/article_list.html:3
+msgid "Article list"
+msgstr "Список статей"
+
+#: blogapp/templates/blogapp/article_list.html:9
+msgid "Published at"
+msgstr "Опубликовано"
+
+#: blogapp/templates/blogapp/article_list.html:12
+msgid "Articles not yet"
+msgstr "Статей пока нет"
 
 #: myauth/views.py:90
 msgid "hello my world"
@@ -33,23 +45,23 @@ msgstr[1] "{count} товара"
 msgstr[2] "{count} товаров"
 msgstr[3] "{count} товаров"
 
-#: mysite/settings.py:137
+#: mysite/settings.py:144
 msgid "English"
 msgstr "Английский"
 
-#: mysite/settings.py:138
+#: mysite/settings.py:145
 msgid "Russian"
 msgstr "Русский"
 
-#: shopapp/models.py:26
+#: shopapp/models.py:30
 msgid "Товар"
 msgstr "Товар"
 
-#: shopapp/models.py:57
+#: shopapp/models.py:61
 msgid "Order"
 msgstr "Заказ"
 
-#: shopapp/models.py:58
+#: shopapp/models.py:62
 msgid "Orders"
 msgstr "Заказы"
 

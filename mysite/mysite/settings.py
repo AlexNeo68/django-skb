@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "requestapp.apps.RequestappConfig",
     "myauth.apps.MyauthConfig",
     "myapi.apps.MyapiConfig",
+    "blogapp.apps.BlogappConfig",
 # 3rd
     "debug_toolbar",
     "rest_framework",

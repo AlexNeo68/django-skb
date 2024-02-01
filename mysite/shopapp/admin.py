@@ -81,11 +81,13 @@ class ProductAdmin(admin.ModelAdmin, ExportAsCSVMixin):
             }
             return render(request, 'admin/import_csv.html', context)
         form = ImportCSVForm(request.POST, request.FILES)
+
         if not form.is_valid():
             context = {
                 'form': form
             }
             return render(request, 'admin/import_csv.html', context, status=400)
+        
         csv_file = TextIOWrapper(
             form.files['csv_file'].file,
             encoding=request.encoding

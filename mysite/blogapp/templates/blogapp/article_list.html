@@ -1,0 +1,15 @@
+{% extends "blogapp/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Article list" %}{% endblock title %}
+
+{% block body %}
+{% for article in object_list %}
+    <div>
+        <div><a href="{{article.get_absolute_url}}">{{article.title}}</a></div>
+        <div>{% trans "Published at" %}: {{article.published_at}}</div>
+    </div>
+{% empty %}
+    {% trans "Articles not yet" %}
+{% endfor %}
+
+{% endblock body %}

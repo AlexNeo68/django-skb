@@ -1,4 +1,5 @@
 import logging
+from django.contrib.admin import action
 from django.forms.models import BaseModelForm
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -17,6 +18,8 @@ from .forms import GroupForm, ProductForm
 from .models import Order, Product, ProductImage
 
 from rest_framework import filters
+from rest_framework.request import Request
+
 from django_filters.rest_framework import DjangoFilterBackend
 
 class ProductViewSet(ModelViewSet):

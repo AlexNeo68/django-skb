@@ -2,6 +2,9 @@
 {% block title %}Index for shopapp{% endblock title %}
 {% block body %}
 
+
+<p>{{temp_value}}</p>
+
 <ul>
     {% for title, price in products %}
         <li>{{title}} for ${{price}}</li>

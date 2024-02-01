@@ -1,5 +1,7 @@
+import datetime
 import logging
 from django.contrib.admin import action
+from django.core.cache import cache
 from django.forms.models import BaseModelForm
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -47,19 +49,24 @@ class ProductViewSet(ModelViewSet):
 class ShopView(View):
     def get(self, request:HttpRequest):
         
-        log = logging.getLogger(__name__)
+        # log = logging.getLogger(__name__)   
+
 
         products = [
             ('Iphone', '1999'),
             ('iMac', '2999'),
             ('MacPro', '1500'),
         ]
+
+        temp_value = cache.get_or_set("some-timestamp-key", datetime.datetime.now, 30)
+
         context = {
-            'products': products
+            'products': products,
+            'temp_value': temp_value
         }
 
-        log.debug('Products for shop index - %s', products)
-        log.info('Products for shop index - %s', products)
+        # log.debug('Products for shop index - %s', products)
+        # log.info('Products for shop index - %s', products)
 
         return render(request, 'shopapp/index.html', context)
 

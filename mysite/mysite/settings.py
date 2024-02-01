@@ -110,8 +110,9 @@ DATABASES = {
 
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-        "LOCATION": os.path.join(BASE_DIR, 'djangoc-cache'),
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+        # "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        # "LOCATION": os.path.join(BASE_DIR, 'djangoc-cache'),
     }
 }
 CACHE_MIDDLEWARE_SECONDS = 2000

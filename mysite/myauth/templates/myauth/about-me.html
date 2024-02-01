@@ -1,12 +1,22 @@
 {% extends "myauth/base.html" %}
+
+{% load cache %}
+
 {% block title %}Аутентификация{% endblock title %}
 {% block body %}
 
+<div>
+    {% now "u" %}
+</div>
+
 {% if user.is_authenticated %}
-    <h2>Profile for {{user.username}}</h2>
-    <p>Bio: {{user.profile.bio}}</p>
-    <p>{{user.user_permissions.all}}</p>
-    <a href="{% url "myauth:logout" %}">Выйти</a>
+    {% cache 60 userinfo user.pk %}
+        <h2>Profile for {{user.username}}</h2>
+        <p>Firstname: {{user.first_name}}</p>
+        <p>Lastname: {{user.last_name}}</p>
+        <p>Bio: {{user.profile.bio}}</p>
+        <a href="{% url "myauth:logout" %}">Выйти</a>
+    {% endcache %}
 
 {% else %}
     <h4>Пользователь не авторизован</h4>

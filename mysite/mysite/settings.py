@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+from os import getenv
 from pathlib import Path
+import logging.config 
 
 from django.conf.global_settings import CACHE_MIDDLEWARE_SECONDS, LANGUAGES, LOCALE_PATHS, LOGIN_REDIRECT_URL, LOGIN_URL, MEDIA_ROOT, MEDIA_URL
 from django.urls import reverse_lazy
@@ -28,12 +30,15 @@ DATABASE_DIR.mkdir(exist_ok=True)
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-96_+7o6rp-w167==p=o!amu()+prx!5jk6rwuzhvpjxdse41fq"
+SECRET_KEY = getenv(
+    'DJANGO_SECRET_KEY', 
+    "django-insecure-96_+7o6rp-w167==p=o!amu()+prx!5jk6rwuzhvpjxdse41fq"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getenv('DJANGO_DEBUG', '0') == '1'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] + getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -201,6 +206,32 @@ LOGFILE_NAME =BASE_DIR / 'debug.log'
 LOGFILE_SIZE = 1 * 1024 *1024
 LOGFILE_COUNT = 3
 
+LOGLEVEL =  getenv('DJANGO_LOGLEVEL', 'info').upper()
+
+# logging.config.dictConfig({
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {
+#         "console": {
+#             "format": "{asctime}, [{levelname}] ({name}): {module} : {message}",
+#             "style": "{",
+#         },
+#     },
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#             "console": "verbose",
+#         },
+#     },
+#     "loggers": {
+#         "": {
+#             "level": LOGLEVEL,
+#             "handlers": ["console",],
+#         },
+#     },
+# })
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -240,7 +271,7 @@ LOGGING = {
             "console", 
             "logfile"
         ],
-        "level": "DEBUG",
+        "level": LOGLEVEL,
     },
     # "loggers": {
     #     "django.db.backends": {

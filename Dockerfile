@@ -1,13 +1,16 @@
-from python:3.10.1
+from python:3.11.5
 
 ENV PYTHONUNUNBUFFERED=1
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
+RUN pip install "poetry==1.7.1"
 
-# RUN pip install -upgrade pip
-RUN pip install -r requirements.txt
+RUN poetry config virtualenvs.create false --local
+
+COPY pyproject.toml poetry.lock ./
+
+RUN poetry install
 
 COPY mysite .
 
